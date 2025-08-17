@@ -6,33 +6,50 @@
           Airbnb
         </a>
       </li>
+      <% if(isLoggedIn) {%>
 
-      <li>
-        <a href="/homes" class="hover:bg-red-400 py-2 px-4 rounded transition duration-300">
-          Homes
-        </a>
-      </li>
-      <li>
-        <a href="/favrouiteList" class="hover:bg-red-400 py-2 px-4 rounded transition duration-300">
-          favourites
-        </a>
-      </li>
-      <li>
-        <a href="/booking" class="hover:bg-red-400 py-2 px-4 rounded transition duration-300">
-          Booking
-        </a>
-      </li>
-      <li>
-        <a href="/hostHomelist" class="hover:bg-red-400 py-2 px-4 rounded transition duration-300">
-          Host Home
-        </a>
-      </li>
-      <li>
-        <a href="/host/add-home" class="hover:bg-red-400 py-2 px-4 rounded transition duration-300">
-          Add Home
-        </a>
-      </li>
 
+        <li>
+          <a href="/homes" class="hover:bg-red-400 py-2 px-4 rounded transition duration-300">
+            Homes
+          </a>
+        </li>
+        <li>
+          <a href="/favourites" class="hover:bg-red-400 py-2 px-4 rounded transition duration-300">
+            favourites
+          </a>
+        </li>
+        <li>
+          <a href="/booking" class="hover:bg-red-400 py-2 px-4 rounded transition duration-300">
+            Booking
+          </a>
+        </li>
+
+        <li>
+          <a href="/hostHomelist" class="hover:bg-red-400 py-2 px-4 rounded transition duration-300">
+            Host Home
+          </a>
+        </li>
+        <li>
+          <a href="/host/add-home" class="hover:bg-red-400 py-2 px-4 rounded transition duration-300">
+            Add Home
+          </a>
+        </li>
+
+
+        <% } %>
+          <% if(!isLoggedIn) {%>
+            <li>
+              <a href="/signUp" class="hover:bg-red-400 py-2 px-4 rounded transition duration-300">Signup</a>
+            </li>
+            <li>
+              <a href="/login" class="hover:bg-red-400 py-2 px-4 rounded transition duration-300">Login</a>
+            </li>
+            <%}else {%>
+              <form action="/logout" method="Post">
+                <button type="submit" class="hover:bg-red-400 py-2 px-4 rounded transition duration-300">Logout</button>
+              </form>
+              <%}%>
     </ul>
   </nav>
 

@@ -1,12 +1,31 @@
-const mysql = require("mysql2");
+const mongo = require("mongodb");
+const MongoClient = mongo.MongoClient;
 
-const pool = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "Ravi511104@",
-  database: "airbnb",
-  port: 3307,
-});
-module.exports = pool.promise();
+const MongoUrl =
+  "mongodb+srv://root:Ravi511104%40@learing.5i39vit.mongodb.net/?retryWrites=true&w=majority&appName=Learing";
 
-// primary key:- it is complusory for all record and it is unique
+let _db;
+
+const mongoConnect = (callback) => {
+  MongoClient.connect(MongoUrl)
+    .then((client) => {
+      _db = client.db("airbnb");
+      callback();
+      console.log("Connected to MongoDB");
+    })
+    .catch((err) => {
+      console.log("Error while connecting to Mongo: ", err);
+    });
+};
+
+const getDb = () => {
+  if (!_db) {
+    throw new Error("Mongo not connected");
+  }
+  return _db;
+};
+
+module.exports = {
+  mongoConnect,
+  getDb,
+};

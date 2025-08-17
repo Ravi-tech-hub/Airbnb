@@ -1,39 +1,16 @@
-//fake database
-let registerHome = [];
-const db = require("../utils/database");
-
-module.exports = class Home {
-  constructor(housename, price, location, rating, photo, description, id) {
-    this.housename = housename;
-    this.price = price;
-    this.location = location;
-    this.rating = rating;
-    this.photo = photo;
-    this.description = description;
-    this.id = id;
-  }
-  save() {
-    return db.execute(
-      "INSERT INTO homes (housename, price, location, rating, image, deccription) VALUES (?, ?, ?, ?, ?, ?)",
-      [
-        this.housename,
-        this.price,
-        this.location,
-        this.rating,
-        this.photo,
-        this.description,
-      ]
-    );
-  }
-
-  static fetchAll() {
-    return db.execute("SELECT * FROM homes");
-  }
-
-  static findById(homeId) {
-    return db.execute("SELECT * FROM homes WHERE id=?", [homeId]);
-  }
-  static deleteById(homeId) {
-    return db.execute("DELETE  FROM homes WHERE id=?", [homeId]);
-  }
-};
+const mongooes = require("mongoose");
+const homeSchema = mongooes.Schema({
+  housename: { type: String, required: true },
+  price: { type: Number, required: true },
+  location: { type: String, required: true },
+  rating: { type: Number, required: true },
+  photo: { type: String },
+  description: { type: String },
+});
+// if host delete home from home list then it also delete from fav list of user for that we define prehooks
+// homeSchema.pre("findOneAndDelete", async function (next) {
+//   const homeId = this.getQuery()._id;
+//   // await favourite.deleteMany({ houseid: homeId });
+//   next();
+//});
+module.exports = mongooes.model("Home", homeSchema);
