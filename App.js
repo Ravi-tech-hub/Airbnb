@@ -10,8 +10,6 @@ app.use("/uploads", express.static(path.join(rootDir, "uploads")));
 app.use("/host/uploads", express.static(path.join(rootDir, "uploads")));
 app.use("/homes/uploads", express.static(path.join(rootDir, "uploads")));
 
-const DB_PATH =
-  "mongodb+srv://root:Ravi511104%40@learing.5i39vit.mongodb.net/airbnb?retryWrites=true&w=majority&appName=Learing";
 //Ejs ke liye
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -24,6 +22,8 @@ const authRouter = require("./Route/authRoute");
 const { default: mongoose } = require("mongoose");
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
+const DB_PATH =
+  "mongodb+srv://root:Ravi511104%40@learing.5i39vit.mongodb.net/airbnb?retryWrites=true&w=majority&appName=Learing";
 
 // databse query:- db.execute--promise return karta hai
 const randomString = (length) => {
@@ -81,6 +81,7 @@ app.use((req, res, next) => {
   //   ? req.get("cookie").split("=")[1] === "true"
   //   : false;
   req.isLoggedIn = req.session.isLoggedIn;
+  req.user = req.session.user;
   next();
 });
 

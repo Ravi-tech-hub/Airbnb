@@ -5,6 +5,8 @@ exports.getAddHome = (req, res, next) => {
     pageTitle: "Add Home to airbnb",
     currentPage: "addHome",
     isLoggedIn: req.isLoggedIn,
+    editing: false,
+    user: req.session.user,
   });
 };
 // const registerHome = [];
@@ -14,6 +16,7 @@ exports.getHostHome = (req, res, next) => {
       registerHome: registerHome,
       pageTitle: "airbnb List",
       isLoggedIn: req.isLoggedIn,
+       user: req.session.user,
     });
   });
   //getting and sending html file
@@ -43,7 +46,7 @@ exports.postAddHome = (req, res, next) => {
     .save()
     .then(() => {
       console.log("Homes saved successfully");
-      res.redirect("host/homeAdded", { isLoggedIn: req.isLoggedIn });
+      res.redirect("hostHomelist");
     })
     .catch((err) => {
       console.log("Error saving home:", err);
@@ -52,25 +55,59 @@ exports.postAddHome = (req, res, next) => {
 };
 
 exports.postEditHome = (req, res, next) => {
-  const home = new Home(
-    req.body.housename,
-    req.body.price,
-    req.body.location,
-    req.body.rating,
-    req.body.photo,
-    req.body.description,
-    req.body.id
-  );
-  home
-    .save()
-    .then(() => {
-      console.log("Homes saved successfully");
-      res.redirect("host/hostHomelist", { isLoggedIn: req.isLoggedIn });
+  const { id, housename, price, location, rating, description } = req.body;
+  console.log("Post Edit home called", id);
+  Home.findById(id)
+    .then((home) => {
+      home.housename = housename;
+      home.price = price;
+      home.location = location;
+      home.rating = rating;
+      home.description = description;
+
+      if (req.file) {
+        fs.unlink(home.photo, (err) => {
+          if (err) {
+            console.log("Error while deleting file ", err);
+          }
+        });
+        home.photo = req.file.path;
+      }
+
+      home
+        .save()
+        .then((result) => {
+          console.log("Home updated ", result);
+        })
+        .catch((err) => {
+          console.log("Error while updating ", err);
+        });
+      res.redirect("hostHomelist");
     })
     .catch((err) => {
-      console.log("Error saving home:", err);
-      res.status(500).send("Error saving home");
+      console.log("Error while finding home ", err);
     });
+};
+
+exports.getEditHome = (req, res, next) => {
+  const homeId = req.params.homeId;
+  const editing = req.query.editing === "true";
+
+  Home.findById(homeId).then((home) => {
+    if (!home) {
+      console.log("Home not found for editing.");
+      return res.redirect("/host/hostHomelist");
+    }
+
+    console.log(homeId, editing, home);
+    res.render("host/addHome", {
+      home: home,
+      pageTitle: "Edit your Home",
+      editing: editing,
+      isLoggedIn: req.isLoggedIn,
+      user: req.session.user,
+    });
+  });
 };
 
 exports.postDeleteHome = (req, res, next) => {
@@ -79,6 +116,7 @@ exports.postDeleteHome = (req, res, next) => {
   Home.findByIdAndDelete(homeId)
     .then(() => {
       Home.find().then((registerHome) => {
+        console.log(registerHome);
         res.render("host/hostHomelist", {
           isLoggedIn: req.isLoggedIn,
           registerHome: registerHome,

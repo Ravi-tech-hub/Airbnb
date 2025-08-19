@@ -8,6 +8,8 @@ const path = require("path");
 hostRouter.get("/host/add-home", homesController.getAddHome);
 hostRouter.post("/host/add-home", homesController.postAddHome);
 hostRouter.get("/hostHomelist", homesController.getHostHome);
+hostRouter.get("/edit-home/:homeId", homesController.getEditHome);
+hostRouter.post("/edit-home", homesController.postEditHome);
 
 hostRouter.post("/deleteHome/:homeId", homesController.postDeleteHome);
 

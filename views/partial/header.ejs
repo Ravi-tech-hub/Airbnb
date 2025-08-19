@@ -1,55 +1,60 @@
-<header class="bg-red-500 text-white p-4 shadow-md">
-  <nav class="container mx-auto flex justify-between item-center">
+<header class="fixed top-0 w-full z-50 bg-white text-red-500 p-4  shadow-md ">
+  <nav class="container mx-auto flex justify-between">
+    <a href="/" class=" font-bold  text-red-500 text-2xl hover:bg-red-400 hover:text-black"> airbnb</a>
     <ul class="flex space-x-4">
-      <li>
-        <a href="/" class="hover:bg-red-400 py-2 px-4 rounded transition duration-300">
-          Airbnb
-        </a>
-      </li>
+
       <% if(isLoggedIn) {%>
+        <% if (user.usertype==='Guest' ) { %>
+          <li>
+            <a href=" /homes" class="hover:bg-red-400 text-black text-xl py-2 px-4 rounded transition duration-300">
+              Homes
+            </a>
+          </li>
 
-
-        <li>
-          <a href="/homes" class="hover:bg-red-400 py-2 px-4 rounded transition duration-300">
-            Homes
-          </a>
-        </li>
-        <li>
-          <a href="/favourites" class="hover:bg-red-400 py-2 px-4 rounded transition duration-300">
-            favourites
-          </a>
-        </li>
-        <li>
-          <a href="/booking" class="hover:bg-red-400 py-2 px-4 rounded transition duration-300">
-            Booking
-          </a>
-        </li>
-
-        <li>
-          <a href="/hostHomelist" class="hover:bg-red-400 py-2 px-4 rounded transition duration-300">
-            Host Home
-          </a>
-        </li>
-        <li>
-          <a href="/host/add-home" class="hover:bg-red-400 py-2 px-4 rounded transition duration-300">
-            Add Home
-          </a>
-        </li>
-
-
-        <% } %>
-          <% if(!isLoggedIn) {%>
+          <li>
+            <a href="/favourites" class="hover:bg-red-400 text-black text-xl py-2 px-4 rounded transition duration-300">
+              favourites
+            </a>
+          </li>
+          <li>
+            <a href="/booking" class="hover:bg-red-400 text-black text-xl py-2 px-4 rounded transition duration-300">
+              Booking
+            </a>
+          </li>
+          <% } if(user.usertype==="Host" ) { %>
             <li>
-              <a href="/signUp" class="hover:bg-red-400 py-2 px-4 rounded transition duration-300">Signup</a>
+              <a href="/hostHomelist"
+                class="hover:bg-red-400 text-black text-xl py-2 px-4 rounded transition duration-300">
+                Host Home
+              </a>
             </li>
+
             <li>
-              <a href="/login" class="hover:bg-red-400 py-2 px-4 rounded transition duration-300">Login</a>
+              <a href="/host/add-home"
+                class="hover:bg-red-400 text-black text-xl py-2 px-4 rounded transition duration-300">
+                Add Home
+              </a>
             </li>
-            <%}else {%>
-              <form action="/logout" method="Post">
-                <button type="submit" class="hover:bg-red-400 py-2 px-4 rounded transition duration-300">Logout</button>
-              </form>
-              <%}%>
+            <% } %>
+              <% } %>
+
+                <% if(!isLoggedIn) {%>
+                  <li>
+                    <a href="/signUp"
+                      class="hover:bg-red-400 py-2 px-4 text-black  text-xl rounded transition duration-300">Signup</a>
+                  </li>
+                  <li>
+                    <a href="/login"
+                      class="hover:bg-red-400 py-2 px-4 text-black text-xl rounded transition duration-300">Login</a>
+                  </li>
+                  <%}else {%>
+                    <li>
+                      <form action="/logout" method="Post">
+                        <button type="submit"
+                          class="hover:bg-red-400 py-2 px-4 text-black text-xl rounded transition duration-300">Logout</button>
+                      </form>
+                    </li>
+                    <%}%>
     </ul>
   </nav>
 
