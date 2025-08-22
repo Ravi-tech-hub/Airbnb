@@ -1,19 +1,41 @@
 <%- include('../partial/head') %>
   </head>
 
-  <body>
+  <body class="bg-gray-100">
     <%- include('../partial/header') %>
-      <main class="container mx-auto mt-8 p-8 bg-white rounded-lg shadow-md pt-20">
-        <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Login With your Info</h1>
-        <%- include('../partial/error')%>
-          <form action="/login" method="POST" required class="max-w-md mx-auto">
-            <input type="email" name="email" value="<%= oldInput.email%>" placeholder="Enter your Email"
-              class="w-full px-4 py-2 mb-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" />
-            <input type="password" name="password" required placeholder="Enter your password"
-              class="w-full px-4 py-2 mb-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" />
-            <input type="submit" value="Login"
-              class="w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition duration-300" />
-          </form>
+      <main class="flex items-center justify-center min-h-screen pt-20 px-4">
+        <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
+          <h1 class="text-3xl font-bold text-center text-gray-800 mb-2">Welcome Back</h1>
+          <p class="text-center text-gray-500 mb-6">Login with your email and password</p>
+          <%- include('../partial/error') %>
+            <form action="/login" method="POST" class="space-y-4">
+              <input type="email" name="email" value="<%= oldInput.email %>" required placeholder="Enter your Email"
+                class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" />
+
+              <input type="password" name="password" required placeholder="Enter your Password"
+                class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" />
+              <div class="flex items-center justify-between text-sm text-gray-600">
+                <label class="flex items-center">
+                  <input type="checkbox" class="mr-2"> Remember me
+                </label>
+                <a href="/forgot-password" class="text-red-500 hover:underline">Forgot Password?</a>
+              </div>
+              <button type="submit"
+                class="w-full bg-red-500 text-white py-3 rounded-lg font-medium hover:bg-red-600 transition duration-300">
+                Login
+              </button>
+            </form>
+            <div class="flex items-center my-6">
+              <hr class="flex-grow border-gray-300">
+              <span class="px-3 text-gray-400 text-sm">OR</span>
+              <hr class="flex-grow border-gray-300">
+            </div>
+
+            <p class="text-center text-sm text-gray-600 mt-6">
+              Don’t have an account?
+              <a href="/signUp" class="text-red-500 font-medium hover:underline">Sign up</a>
+            </p>
+        </div>
       </main>
   </body>
 
